@@ -62,10 +62,18 @@
 
     <script>
 
-        var n1 = new Negociacao(new Date(), 5, 700);
-        var volume = n1.obtemVolume();
-        console.log(volume);
+        let n1 = new Negociacao(new Date(), 5, 700);
+        console.log(n1.quantidade);
+        console.log(n1.data);
+        console.log(n1.valor);
+        console.log(n1.volume);
 
+        var calopsita = new Calopsita('Tapioca', 'calopsita do campo');
+        console.log(calopsita.nome); 
+        console.log(calopsita.raca); 
+
+        var pessoa = new Pessoa ('William', 'Frazão');
+        console.log('Nome completo: ' + pessoa.obtemNomeCompleto());
     </script>
 
 </body>
