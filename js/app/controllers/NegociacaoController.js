@@ -3,23 +3,20 @@ class NegociacaoController {
     constructor() {
         
         let $ = document.querySelector.bind(document);
+        
         this._inputData = $('#data');
         this._inputQuantidade = $('#quantidade');
         this._inputValor = $('#valor');
 
-        this._negociacoesView = new NegociacoesView($('#negociacoesView'));
-
         this ._listaNegociacoes = new Bind(
             new ListaNegociacoes(),
-            this._negociacoesView,
-            ['adiciona', 'esvazia'])
+            new NegociacoesView($('#negociacoesView')),
+            'adiciona', 'esvazia')
         
-        this._mensagemView = new MensagemView ($('#mensagemView'));
-
         this._mensagem = new Bind(
             new Mensagem(),
-            this._mensagemView,
-            ['texto']);
+            new MensagemView ($('#mensagemView')),
+            'texto');
     }
     
     adiciona(event) {
@@ -28,6 +25,22 @@ class NegociacaoController {
         this._listaNegociacoes.adiciona(this._criaNegociacao());
         this._mensagem.texto = 'Negociacao adicionada com sucesso';
         this._limpaFormulario();
+    }
+
+    importaNegociacoes() {
+
+        let service = new NegociacaoService();
+
+        service.obterNegociacoesDaSemana((error, negociacoes) => {
+            if(error) {
+                this._mensagem.texto = error;
+                return;
+            }
+
+            negociacoes.forEach(negociacao => this._listaNegociacoes.adiciona(negociacao));
+            this._mensagem.texto = 'Negociações importadas com sucesso';
+        });
+
     }
 
     apaga() {
